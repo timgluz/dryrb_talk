@@ -8,7 +8,7 @@ require 'database_cleaner'
 require 'faker'
 require 'factory_bot'
 
-require_relative '../api.rb'
+require_relative '../app.rb'
 
 # Comment out if the project is using database
 #connect_database
