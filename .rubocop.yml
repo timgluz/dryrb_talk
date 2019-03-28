@@ -62,10 +62,6 @@ Layout/SpaceAroundEqualsInParameterDefault:
 # Style/StringLiterals:
 #   EnforcedStyle: double_quotes
 
-# We do not need to support Ruby 1.9, so this is good to use.
-Style/SymbolArray:
-  Enabled: false
-
 # Fail is an alias of raise. Avoid aliases, it's more cognitive load for no gain.
 # The argument that fail should be used to abort the program is wrong too, there's Kernel#abort
 # for that.
@@ -153,9 +149,6 @@ Lint/RequireParentheses:
 Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
-
-Bundler/OrderedGems:
-  Enabled: false
 
 ## Performance ---------------------------------------------------------------------------------------------------------
 

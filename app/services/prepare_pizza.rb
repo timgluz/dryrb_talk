@@ -23,6 +23,7 @@ module Services
 
     private
 
+    # NB! we use dry-struct here
     def make_new_pizza
       Pizza.new(
         name: 'Rubylicious Pizza',
