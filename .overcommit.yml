@@ -1,0 +1,39 @@
+PreCommit:
+  RuboCop:
+    enabled: true
+    on_warn: fail
+    problem_on_unmodified_line: ignore
+    command: ['bundle', 'exec', 'rubocop']
+  BundleAudit:
+    enabled: true
+  BundleCheck:
+    enabled: true
+  ForbiddenBranches:
+    enabled: true
+    branch_patterns: ['master']
+  Fasterer:
+    enabled: true
+    exclude:
+      - 'vendor/**/*.rb'
+      - 'db/schema.rb'
+
+CommitMsg:
+  CapitalizedSubject:
+    enabled: false
+
+PostCheckout:
+  BundleInstall:
+    enabled: true
+
+PostMerge:
+  BundleInstall:
+    enabled: true
+
+PostRewrite:
+  BundleInstall:
+    enabled: true
+
+PrePush:
+  ProtectedBranches:
+    enabled: true
+    branches: ['master']

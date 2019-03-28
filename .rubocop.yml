@@ -1,0 +1,312 @@
+require: rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.5
+  DisplayCopNames: true
+  DisabledByDefault: true
+  Exclude:
+    - 'db/schema.rb'
+    - 'bin/**/*'
+    - 'bundle/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+
+# Commonly used screens these days easily fit more than 80 characters.
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'db/migrate/*'
+    - 'db/fixtures/**/*'
+    - 'lib/utils/seed/*'
+
+# Prefer &&/|| over and/or.
+Style/AndOr:
+  Enabled: true
+
+# Do not use braces for hash literals when they are the last argument of a method call.
+Style/BracesAroundHashParameters:
+  Enabled: true
+
+# Align `when` with `case`.
+Layout/CaseIndentation:
+  Enabled: true
+
+# Align comments with method definitions.
+Layout/CommentIndentation:
+  Enabled: true
+
+# No extra empty lines.
+Layout/EmptyLines:
+  Enabled: true
+
+# Use Ruby >= 1.9 syntax for hashes. Prefer { a: :b } over { :a => :b }.
+Style/HashSyntax:
+  EnforcedStyle: ruby19_no_mixed_keys
+
+# Two spaces, no tabs (for indentation).
+Layout/IndentationWidth:
+  Enabled: true
+
+Layout/SpaceAfterColon:
+  Enabled: true
+
+Layout/SpaceAfterComma:
+  Enabled: true
+
+Layout/SpaceAroundEqualsInParameterDefault:
+  Enabled: no_space
+
+# TODO: Single quotes being faster is hardly measurable and only affects parse time.
+# Enforcing double quotes reduces the times where you need to change them when introducing an
+# interpolation. Use single quotes only if their semantics are needed.
+# Style/StringLiterals:
+#   EnforcedStyle: double_quotes
+
+# We do not need to support Ruby 1.9, so this is good to use.
+Style/SymbolArray:
+  Enabled: false
+
+# Fail is an alias of raise. Avoid aliases, it's more cognitive load for no gain.
+# The argument that fail should be used to abort the program is wrong too, there's Kernel#abort
+# for that.
+Style/SignalException:
+  EnforcedStyle: only_raise
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+# Suppressing exceptions can be perfectly fine, and be it to avoid to explicitly type nil into
+# the rescue since that's what you want to return, or suppressing LoadError for optional
+# dependencies.
+Lint/HandleExceptions:
+  Enabled: false
+
+Layout/SpaceAroundKeyword:
+  Enabled: true
+
+Layout/SpaceAroundOperators:
+  Enabled: true
+
+Layout/SpaceBeforeFirstArg:
+    Enabled: true
+
+# Defining a method with parameters needs parentheses.
+Style/MethodDefParentheses:
+  Enabled: true
+
+# Use `foo {}` not `foo{}`.
+Layout/SpaceBeforeBlockBraces:
+  Enabled: true
+
+# Use `foo { bar }` not `foo {bar}`.
+Layout/SpaceInsideBlockBraces:
+  Enabled: true
+
+# No trailing space differentiates better from the block:
+# foo} means hash, foo } means block.
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Style/WordArray:
+  EnforcedStyle: brackets
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Layout/SpaceInsideParens:
+  Enabled: true
+
+# Detect hard tabs, no hard tabs.
+Layout/Tab:
+  Enabled: true
+
+# Blank lines should not have any spaces.
+Layout/TrailingBlankLines:
+  Enabled: true
+
+# No trailing whitespace.
+Layout/TrailingWhitespace:
+  Enabled: true
+
+Lint/Debugger:
+  Enabled: true
+
+Layout/BlockAlignment:
+  Enabled: true
+
+# Align `end` with the matching keyword or starting expression except for assignments,
+# where it should be aligned with the LHS.
+Layout/EndAlignment:
+  Enabled: true
+  EnforcedStyleAlignWith: variable
+
+# Use my_method(my_arg) not my_method( my_arg ) or my_method my_arg.
+Lint/RequireParentheses:
+  Enabled: true
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+
+Bundler/OrderedGems:
+  Enabled: false
+
+## Performance ---------------------------------------------------------------------------------------------------------
+
+# Use `casecmp` rather than `downcase ==`.
+Performance/Casecmp:
+  Enabled: true
+
+# Use `str.{start,end}_with?(x, ..., y, ...)` instead of
+# `str.{start,end}_with?(x, ...) || str.{start,end}_with?(y, ...)`.
+Performance/DoubleStartEndWith:
+  Enabled: true
+
+# Use `strip` instead of `lstrip.rstrip`.
+Performance/LstripRstrip:
+  Enabled: true
+
+# Use `Range#cover?` instead of `Range#include?`.
+Performance/RangeInclude:
+  Enabled: true
+
+# Use `sort` instead of `sort_by { |x| x }`.
+Performance/RedundantSortBy:
+  Enabled: true
+
+# Use `start_with?` instead of a regex match anchored to the beginning of a string.
+Performance/StartWith:
+  Enabled: true
+
+# Use `end_with?` instead of a regex match anchored to the ending of a string.
+Performance/EndWith:
+  Enabled: true
+
+# Use `tr` instead of `gsub` when you are replacing the same number of characters.
+# Use `delete` instead of `gsub` when you are deleting characters.
+Performance/StringReplacement:
+  Enabled: true
+
+# Checks for `.times.map` calls.
+Performance/TimesMap:
+  Enabled: true
+
+## Rails ---------------------------------------------------------------------------------------------------------------
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Rails:
+  Enabled: true
+
+# Enforces consistent use of action filter methods.
+Rails/ActionFilter:
+  Enabled: true
+  EnforcedStyle: action
+
+# Prefer `find_by` over `where.first`.
+Rails/FindBy:
+  Enabled: true
+
+# Prefer `all.find_each` over `all.find`.
+Rails/FindEach:
+  Enabled: true
+
+# Checks for incorrect grammar when using methods like `3.day.ago`.
+Rails/PluralizationGrammar:
+  Enabled: true
+
+# Checks the arguments of ActiveRecord scopes.
+Rails/ScopeArgs:
+  Enabled: true
+
+## RSpec ---------------------------------------------------------------------------------------------------------------
+
+# Check that instances are not being stubbed globally.
+RSpec/AnyInstance:
+  Enabled: false
+
+# Check that the first argument to the top level describe is the tested class or module.
+RSpec/DescribeClass:
+  Enabled: false
+
+# Use `described_class` for tested class / module.
+RSpec/DescribeMethod:
+  Enabled: false
+
+# Checks that the second argument to top level describe is the tested method name.
+RSpec/DescribedClass:
+  Enabled: false
+
+# Checks for long example.
+RSpec/ExampleLength:
+  Enabled: false
+  Max: 5
+
+# Do not use should when describing your tests.
+RSpec/ExampleWording:
+  Enabled: false
+  CustomTransform:
+    be: is
+    have: has
+    not: does not
+  IgnoredWords: []
+
+# Checks the file and folder naming of the spec file.
+RSpec/FilePath:
+  Enabled: false
+  CustomTransform:
+    RuboCop: rubocop
+    RSpec: rspec
+
+# Checks if there are focused specs.
+RSpec/Focus:
+  Enabled: true
+
+# Checks for the usage of instance variables.
+RSpec/InstanceVariable:
+  Enabled: false
+
+# Checks for multiple top-level describes.
+RSpec/MultipleDescribes:
+  Enabled: false
+
+# Enforces the usage of the same method on all negative message expectations.
+RSpec/NotToNot:
+  EnforcedStyle: not_to
+  Enabled: true
+
+# Prefer using verifying doubles over normal doubles.
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: true
+  Exclude:
+    - 'config/initializers/money.rb'
+
+# We think it is ok to have chain methods for tests. It is intended to fix Law of Demeter violations
+# We like fluent interfaces, as long as they do not violate the Law of Demeter.
+RSpec/MessageChain:
+  Enabled: false
+
+# Checks that message expectations are set using spies, which is of no use.
+# It's completely acceptable to setup doubles as spies or as mocks and should not be blocked.
+RSpec/MessageSpies:
+  Enabled: false
+
+# We like naming our subjects, subject!
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false

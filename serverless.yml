@@ -1,0 +1,68 @@
+---
+service: dryrb_talk
+
+provider:
+  name: aws
+  runtime: ruby2.5
+  stage: ${opt:stage, 'staging'}
+  profile: 'staging'
+  region: eu-central-1
+  role: ${self:custom.${self:provider.stage}.iam_role_arn}
+  memorySize: 512
+  apiKeys:
+    - ${self:custom.${self:provider.stage}.api_key_name}
+
+  deploymentBucket:
+    name: ${self:custom.${self:provider.stage}.deployment_bucket}
+    serverSideEncryption: AES256
+    deploymentPrefix: dryrb_talk
+    versionFunctions: false
+
+  # you can define service wide environment variables here
+  environment:
+    GEM_PATH: "/opt/ruby/2.5.0:/opt/vendor/bundle/ruby/2.5.0"
+    RACK_ENV: ${self:custom.profile}
+
+# you can add packaging information here
+package:
+  include:
+    - app/**
+    - config/**
+    - handlers.rb
+  exclude:
+    - docs/**
+    - config/**
+    - .serverless/**
+    - readme.md
+    - tmp/**
+    - .git
+    - .vscode
+    - ruby.zip
+    - vendor.zip
+
+functions:
+  health:
+    handler: handlers.health
+    description: "lambda to check healthiness of gem layers"
+    layers:
+      - ${self:custom.${self:provider.stage}.vendor_layer_arn}
+      - ${self:custom.${self:provider.stage}.mysql_layer_arn}
+    events:
+      - http:
+          path: health
+          method: get
+          integration: lambda
+          private: true
+
+
+# Custom configs
+# for SSM settings go to System Manager > Parameter Store
+custom:
+  profile: ${self:custom.${self:provider.stage}.profile}
+  staging:
+    profile: staging
+    iam_role_arn: 'arn:aws:iam::634880740869:role/dryrb_talk'
+    vendor_layer_arn: "arn:aws:lambda:eu-central-1:634880740869:layer:dryrb_talkr-layer:1"
+    mysql_layer_arn: "arn:aws:lambda:eu-central-1:634880740869:layer:mysql_0_5_1:1"
+    deployment_bucket: 'creditshelf-lambdas'
+    api_key_name: 'dryrb_talk-key'
